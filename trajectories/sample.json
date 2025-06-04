@@ -1,0 +1,14 @@
+[
+    {
+        "id": 0,
+        "timestamp": "2025-06-03T23:04:18.207811",
+        "source": "agent",
+        "message": "You are OpenHands agent, a helpful AI assistant that can interact with a computer to solve tasks."
+    },
+    {
+        "id": 1,
+        "timestamp": "2025-06-03T23:04:18.210897",
+        "source": "user",
+        "message": "Some user command"
+    }
+]

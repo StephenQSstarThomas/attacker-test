@@ -46,3 +46,61 @@ The Defending Agent operates in an offline or semi-offline setting. It processes
 
 Developers run the Defending Agent after collecting logs or when reviewing code updates. The agent outputs a list of potential injection points and recommended fixes, assisting developers in hardening their agent-based systems.
 
+
+## 5. System Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                   Defending Agent                        │
+├─────────────────────────────────────────────────────────┤
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────┐  │
+│  │ File Reader │  │  Analyzer   │  │ Defense Engine  │  │
+│  │   Module    │  │   Module    │  │     Module      │  │
+│  └─────────────┘  └─────────────┘  └─────────────────┘  │
+├─────────────────────────────────────────────────────────┤
+│                  LiteLLM Framework                      │
+├─────────────────────────────────────────────────────────┤
+│           External Systems & File Storage               │
+└─────────────────────────────────────────────────────────┘
+```
+
+### 5.1 File Reader Module
+- **FileWatcher**: monitors the `trajectories/` folder for new or updated files.
+- **TraceCollector**: loads interaction traces from JSON logs.
+- **CodeAnalyzer**: parses source files for structural information.
+
+### 5.2 Analyzer Module
+- **ContentProcessor**: cleans and normalizes text.
+- **VulnerabilityScanner**: detects potential injection points.
+- **RiskAssessment**: assigns a risk level to each finding.
+
+### 5.3 Defense Engine Module
+- **AttackSimulator**: explores how an attacker might exploit a vulnerability.
+- **DefenseGenerator**: proposes mitigations and best practices.
+- **ResponseCoordinator**: coordinates alerting and reporting.
+
+## 6. Data Flow
+
+```
+[Victim Agent Files]
+        ↓
+[File Reader Module]
+        ↓
+[Raw Data Processing]
+        ↓
+[Analyzer Module]
+        ↓
+[Vulnerability Assessment]
+        ↓
+[Defense Engine Module]
+        ↓
+[Protection Strategies & Alerts]
+```
+
+## 7. Monitoring Trajectories
+
+A simple Python script (`trajectory_monitor.py`) demonstrates how to watch the
+`trajectories/` directory for new JSON files. It uses the `watchdog` package when
+available and falls back to periodic polling otherwise. Each new file is parsed
+and inspected for suspicious patterns in user messages. See the script for
+implementation details.
